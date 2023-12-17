@@ -1,0 +1,47 @@
+@import '../../scss/mixins';
+
+.calendar-day {
+    text-align: center;
+    margin: 5px 0;
+    background-color: #F9F9F9;
+    border: 1px solid #DDDDDD;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    min-height: 100px;
+
+    &_header {
+        background-color: #f6f6f6;
+        padding: 5px 0 5px 5px;
+        text-align: left;
+        border-bottom: 1px solid rgba(0,0,0, 0.2);
+        font-size: 14px;
+    }
+
+    .events-list {
+        margin-top: 10px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    // Responsive design for mobile
+    @include respond-to(phones) {
+        min-height: 150px;
+        // Each day in a new row
+        &:not(.prev-date, .next-date) {
+            grid-column: span 7; // Make it take full width
+        }
+
+        // Hide the days that do not belong to the current month
+        &.prev-date, &.next-date {
+            display: none;
+        }
+    }
+}
+
+.today {
+    font-weight: bold;
+}
+
+.prev-date, .next-date {
+    color: #999;
+}

@@ -1,0 +1,33 @@
+@import './scss/mixins';
+
+.app-container {
+  display: flex;
+  height: 100vh;
+  background-color: #FFFFFF;
+}
+
+.side-panel {
+  padding: 20px;
+  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
+
+  &.left-panel {
+    width: 240px;
+    background-color: #F9FAFB;
+  }
+
+  @include respond-to(phones) {
+    display: none;
+  }
+}
+
+.calendar-container {
+  flex-grow: 1;
+  display: flex;
+  padding: 0 25px;
+  max-width: calc(100% - 240px);
+
+  @include respond-to(phones) {
+    padding: 0 10px;
+    max-width: 100%;
+  }
+}

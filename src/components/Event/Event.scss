@@ -1,0 +1,12 @@
+.event {
+    border-radius: 10px;
+    padding: 0 5px;
+    color: white;
+    overflow: hidden;
+    max-height: 20px;
+    text-align: left;
+
+    .event-title {
+      font-size: 1em;
+    }
+  }
