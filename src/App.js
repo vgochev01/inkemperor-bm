@@ -3,6 +3,7 @@ import Calendar from './components/Calendar/Calendar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import './App.scss';
+import Menu from './components/Menu/Menu';
 
 function App() {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
@@ -10,6 +11,8 @@ function App() {
   const togglePanel = () => {
     setIsPanelOpen(!isPanelOpen);
   };
+
+
 
   return (
     <div className="app-container">
@@ -20,8 +23,7 @@ function App() {
           <FontAwesomeIcon icon={faBars} className="menu-icon" onClick={togglePanel} />
         )}
         <div className={`panel-content ${isPanelOpen ? 'show' : ''}`}>
-          <h2 style={{textAlign: 'center'}}>Logo here</h2>
-          {/* Navigation links and other content here */}
+          <Menu />
         </div>
       </div>
       <div className="calendar-container">

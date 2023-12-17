@@ -1,0 +1,23 @@
+@import '../../scss/mixins';
+
+.menu {
+    .menu-item {
+        display: flex;
+        align-items: center;
+        padding: 10px 15px;
+        color: #333;
+        font-size: 18px;
+        transition: background-color 0.3s;
+        cursor: pointer;
+        text-decoration: none;
+
+        &:hover {
+            background-color: #DDD;
+        }
+
+        &-icon {
+            margin-right: 10px;
+            color: #4CAF50;
+        }
+    }
+}

@@ -65,6 +65,13 @@
     &.show {
       display: block;
     }
+
+    h2 {
+      color: #4CAF50; // Example color for the 'Calamari' logo
+      text-align: center;
+      font-size: 24px;
+      padding: 10px 0;
+    }
   }
 
   @include respond-to(phones) {
