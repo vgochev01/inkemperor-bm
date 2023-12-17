@@ -1,0 +1,10 @@
+.day-view {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+
+    .hour {
+        border-bottom: 1px solid #ccc;
+        padding: 10px;
+    }
+}

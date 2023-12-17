@@ -1,0 +1,12 @@
+.week-view {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+
+    .day {
+        flex-grow: 1;
+        text-align: center;
+        border: 1px solid #ccc;
+        padding: 5px;
+    }
+}
