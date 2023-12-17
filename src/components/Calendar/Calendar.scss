@@ -37,6 +37,22 @@
             background: #FFF;
         }
     }
+
+    .datepicker-icon {
+        display: inline-block;
+        position: relative;
+
+        .open-datepicker {
+            margin-left: 10px;
+        }
+    }
+
+    .datepicker-container {
+        position: absolute;
+        top: 0;
+        right: 0;
+        transform: translateX(calc(100% + 10px));
+    }
 }
 
 #daysOfWeek {
@@ -59,4 +75,8 @@
     @include respond-to(phones) {
         grid-template-columns: 1fr;
     }
+}
+
+.icon-cta {
+    cursor: pointer;
 }

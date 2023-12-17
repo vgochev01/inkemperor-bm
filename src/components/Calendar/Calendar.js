@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import './Calendar.scss';
+import DatePicker from 'react-datepicker';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faArrowRight, faCalendarDays } from '@fortawesome/free-solid-svg-icons';
 import CalendarDay from '../CalendarDay/CalendarDay';
+import 'react-datepicker/dist/react-datepicker.css';
+import './Calendar.scss';
 
 const Calendar = () => {
     const [currentDate, setCurrentDate] = useState(new Date());
-    const [updateEvents, setUpdateEvents] = useState(null);
+    const [showDatePicker, setShowDatePicker] = useState(false);
 
     const renderCalendar = () => {
         const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
@@ -44,10 +46,6 @@ const Calendar = () => {
 
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-    useEffect(() => {
-        renderCalendar();
-    }, [currentDate]);
-
     const nextMonth = () => {
         setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1));
     };
@@ -57,13 +55,40 @@ const Calendar = () => {
     };
 
     const goToToday = () => {
-        setCurrentDate(new Date()); // Resets the date to today
+        setCurrentDate(new Date());
     };
+
+    const toggleDatePicker = () => setShowDatePicker(!showDatePicker);
+    const handleDateChange = date => {
+        setCurrentDate(date);
+        setShowDatePicker(false);
+    };
+
+    useEffect(() => {
+        renderCalendar();
+    }, [currentDate, showDatePicker]);
 
     return (
         <div id="calendar">
             <div id="monthDisplay">
-                <span className="current-month">{months[currentDate.getMonth()]} {currentDate.getFullYear()}</span>
+                <span className="current-month">
+                    {months[currentDate.getMonth()]} {currentDate.getFullYear()}
+                    <div className='datepicker-icon'>
+                        <a className="icon-cta open-datepicker" onClick={toggleDatePicker}>
+                            <FontAwesomeIcon icon={faCalendarDays} />
+                        </a>
+                        <div className="datepicker-container">
+                            {showDatePicker && (
+                                <DatePicker
+                                    selected={currentDate}
+                                    onChange={handleDateChange}
+                                    onCalendarClose={toggleDatePicker}
+                                    inline
+                                />
+                            )}
+                        </div>
+                    </div>
+                </span>
                 <div className="change-month-buttons">
                     <button id="backButton" onClick={prevMonth}><FontAwesomeIcon icon={faArrowLeft} /></button>
                     <button id="nextButton" onClick={nextMonth}><FontAwesomeIcon icon={faArrowRight} /></button>
