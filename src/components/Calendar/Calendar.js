@@ -35,7 +35,7 @@ const Calendar = () => {
                     <DisplayDate currentDate={currentDate} viewType={viewType} />
                     <DatePickerWrapper currentDate={currentDate} setCurrentDate={setCurrentDate} />
                 </span>
-                <CalendarNavigation currentDate={currentDate} setCurrentDate={setCurrentDate} viewType={viewType} />
+                <CalendarNavigation currentDate={currentDate} setCurrentDate={setCurrentDate} viewType={viewType} setViewType={setViewType} />
             </div>
             {renderView()}
         </div>
