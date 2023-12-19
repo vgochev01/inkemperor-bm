@@ -34,7 +34,7 @@ function App() {
           <Menu />
         </div>
       </div>
-      <div className="app-container_content">
+      <div className={`app-container_content ${isPanelOpen ? 'panel-open' : ''}`}>
           <Routes>
             <Route path="/auth" element={<LoginPage />} />
             <Route path="/" element={
