@@ -12,12 +12,27 @@
         text-decoration: none;
 
         &:hover {
-            background-color: #DDD;
+            background-color: #E3F3F0;
+            color: #27a082;
+
+            .menu-item-icon {
+                color: #27a082;
+            }
         }
 
         &-icon {
-            margin-right: 10px;
-            color: #4CAF50;
+            width: 30px;
+            margin-right: 5px;
+            color: #c9d1d3;
+            text-align: center;
+        }
+
+        &.active {
+            color: #27a082;
+
+            .menu-item-icon {
+                color: #27a082;
+            }
         }
     }
 }

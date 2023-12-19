@@ -3,7 +3,18 @@
 .app-container {
   display: flex;
   height: 100vh;
-  background-color: #FFFFFF;
+
+  &_content {
+    flex-grow: 1;
+    display: flex;
+    padding: 0 25px;
+    max-width: calc(100% - 75px);
+
+    @include respond-to(phones) {
+      padding: 0 10px;
+      max-width: 100%;
+    }
+  }
 }
 
 .side-panel {
@@ -11,7 +22,7 @@
   transition: width 0.3s;
   position: relative;
   background-color: #F9FAFB;
-
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 
   &.open {
     width: 240px;
@@ -26,7 +37,7 @@
     text-align: center;
     cursor: pointer;
     font-size: 2em;
-    color: #333;
+    color: #27a082;
 
     @include respond-to(phones) {
       left: 10px;
@@ -138,6 +149,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: none;
 
     &.open {
       width: 100%;
@@ -148,17 +160,5 @@
       margin: 0;
       color: #4CAF50;
     }
-  }
-}
-
-.calendar-container {
-  flex-grow: 1;
-  display: flex;
-  padding: 0 25px;
-  max-width: calc(100% - 75px);
-
-  @include respond-to(phones) {
-    padding: 0 10px;
-    max-width: 100%;
   }
 }

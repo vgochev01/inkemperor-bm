@@ -1,18 +1,24 @@
 import React, { useState } from 'react';
-import Calendar from './components/Calendar/Calendar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faArrowLeft, faXmark } from '@fortawesome/free-solid-svg-icons';
 import './App.scss';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+} from 'react-router-dom';
 import Menu from './components/Menu/Menu';
+import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
+import Calendar from './components/Calendar/Calendar';
+import LoginPage from './components/LoginPage/LoginPage';
 
 function App() {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
 
   const togglePanel = () => {
     setIsPanelOpen(!isPanelOpen);
   };
-
-
 
   return (
     <div className="app-container">
@@ -28,8 +34,15 @@ function App() {
           <Menu />
         </div>
       </div>
-      <div className="calendar-container">
-        <Calendar />
+      <div className="app-container_content">
+          <Routes>
+            <Route path="/auth" element={<LoginPage />} />
+            <Route path="/" element={
+              <ProtectedRoute isAuthenticated={isAuthenticated}>
+                <Calendar />
+              </ProtectedRoute>
+            } />
+          </Routes>
       </div>
     </div>
   );

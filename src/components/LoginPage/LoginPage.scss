@@ -1,0 +1,53 @@
+@import 'node_modules/bootstrap/scss/bootstrap';
+
+.login-container {
+  height: 100vh;
+  background-color: #E3F3F0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  max-width: 100%;
+}
+
+.login-card {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  width: 480px;
+}
+
+.login-form {
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .input-group-text {
+    background-color: #27a082;
+    color: #fff;
+    padding: 1rem;
+  }
+
+  .form-control {
+    border: 1px solid #c9d1d3;
+    height: 50px;
+
+    &:focus {
+        outline: none;
+        box-shadow: none;
+    }
+  }
+
+  button {
+    background-color: #27a082;
+    padding: 10px 0;
+    font-size: 1rem;
+
+    &:hover {
+        background-color: rgba(39, 160, 130, 0.9);
+    }
+  }
+
+  h3 {
+    color: #27a082;
+  }
+}
