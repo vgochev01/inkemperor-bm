@@ -2,25 +2,34 @@
 
 .app-container {
   display: flex;
-  height: 100vh;
+  min-height: 100vh;
 
   &_content {
     flex-grow: 1;
     display: flex;
     padding: 0 25px;
+    margin-left: 75px;
     max-width: calc(100% - 75px);
+
+    &.panel-open {
+      margin-left: 240px;
+    }
 
     @include respond-to(phones) {
       padding: 0 10px;
       max-width: 100%;
+      margin: 0;
     }
   }
 }
 
 .side-panel {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 75px;
+  height: 100vh;
   transition: width 0.3s;
-  position: relative;
   background-color: #F9FAFB;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 
