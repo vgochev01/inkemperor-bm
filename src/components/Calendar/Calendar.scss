@@ -7,11 +7,11 @@
     border-radius: 10px;
     overflow: hidden;
     width: 100%;
-    margin-top: 20px;
+    margin: 20px 0;
 
     @include respond-to(phones) {
         overflow-y: scroll;
-        margin-top: 60px;
+        margin: 60px 0 0;
     }
 }
 
@@ -33,6 +33,7 @@
         border-radius: 50%;
         cursor: pointer;
         font-weight: bold;
+        font-size: 1rem;
 
         &:hover {
             background: #FFF;
@@ -45,6 +46,7 @@
 
         .open-datepicker {
             margin-left: 10px;
+            color: #27a082;
         }
     }
 
@@ -53,6 +55,7 @@
         top: 0;
         right: 0;
         transform: translateX(calc(100% + 10px));
+        z-index: 999;
     }
 }
 

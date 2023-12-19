@@ -1,12 +1,16 @@
 .event {
-    border-radius: 10px;
-    padding: 0 5px;
+    display: grid;
+    align-content: center;
+    border-radius: 5px;
     color: white;
     overflow: hidden;
-    max-height: 20px;
-    text-align: left;
-
-    .event-title {
-      font-size: 1em;
-    }
+    padding: 4px;
+    box-sizing: border-box; // Include padding and border in the element's dimensions
+    text-align: center;
+    grid-column: 1 / -1; // Event will take full width of the day column
   }
+  
+  .event-title {
+    font-size: 0.85em;
+  }
+  

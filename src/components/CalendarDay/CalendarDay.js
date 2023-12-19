@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './CalendarDay.scss';
-import Event from '../Event/Event';
+import BasicEvent from '../BasicEvent/BasicEvent';
 
 const CalendarDay = ({ date, additionalClass, currentDate }) => {
     const [events, setEvents] = useState([]);
@@ -67,7 +67,7 @@ const CalendarDay = ({ date, additionalClass, currentDate }) => {
   return (
     <div className={`calendar-day ${additionalClass || ''}`}>
       <div className='calendar-day_header'>{date}</div>
-      {events.map(event => <Event key={event.id} event={event} />)}
+      {events.map(event => <BasicEvent key={event.id} event={event} />)}
     </div>
   );
 };
