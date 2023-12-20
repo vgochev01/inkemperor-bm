@@ -1,54 +1,62 @@
-import React from 'react';
-import { Form, Button, Container, Row, Col, Card } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { useState } from 'react';
+import { Container, Row, Col, Card } from 'react-bootstrap';
 import { faUser, faLock } from '@fortawesome/free-solid-svg-icons';
+import CustomForm from '../CustomForm/CustomForm';
+import * as authService from '../../services/authService';
+
 import './LoginPage.scss';
 
 const LoginPage = () => {
+  const formFields = [
+    {
+      controlId: 'username',
+      label: 'Username',
+      icon: faUser,
+      type: 'text',
+      placeholder: 'Enter username',
+      inputProps: {
+      }
+    },
+    {
+      controlId: 'password',
+      label: 'Password',
+      icon: faLock,
+      type: 'password',
+      placeholder: 'Password',
+      inputProps: {
+      }
+    }
+  ];
 
-    const onSubmit = (e) => {
-        e.preventDefault();
+  const [fields, setFields] = useState(formFields);
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    const formData = Object.fromEntries(new FormData(e.currentTarget));
+
+    try {
+        const data = await authService.login(formData);
+        // setUser
+        // navigate
+    } catch(err) {
+        alert(err);
     }
 
-    return (
-    <Container className="d-flex justify-content-center align-items-center login-container">
+  };
+
+  return (
+    <Container className="d-flex justify-content-center align-items-center" id="loginForm">
         <Row>
         <Col>
             <Card className="login-card">
             <Card.Body>
-                <Form className="login-form" onSubmit={onSubmit}>
-                <h3 className="text-center mb-4">Sign In</h3>
-
-                <Form.Group controlId="formBasicEmail" className='form-group'>
-                    <Form.Label>Username</Form.Label>
-                    <div className="input-group">
-                    <span className="input-group-text" id="basic-addon1">
-                        <FontAwesomeIcon icon={faUser} />
-                    </span>
-                    <Form.Control type="text" placeholder="Enter username" />
-                    </div>
-                </Form.Group>
-
-                <Form.Group controlId="formBasicPassword" className='form-group'>
-                    <Form.Label>Password</Form.Label>
-                    <div className="input-group">
-                    <span className="input-group-text" id="basic-addon2">
-                        <FontAwesomeIcon icon={faLock} />
-                    </span>
-                    <Form.Control type="password" placeholder="Password" />
-                    </div>
-                </Form.Group>
-
-                <Button variant="primary" type="submit" className="w-100 mt-3">
-                    Submit
-                </Button>
-                </Form>
+                <CustomForm fields={fields} onSubmit={onSubmit} title="Sign In" />
             </Card.Body>
             </Card>
         </Col>
         </Row>
     </Container>
-    );
+  );
 };
 
 export default LoginPage;

@@ -1,0 +1,32 @@
+form {
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .input-group-text {
+      background-color: #27a082;
+      color: #fff;
+      padding: 1rem;
+    }
+
+    .form-control {
+      border: 1px solid #c9d1d3;
+      height: 50px;
+
+      &:focus {
+          outline: none;
+          box-shadow: none;
+      }
+    }
+
+    #submitFormBtn {
+      background-color: #27a082;
+      padding: 10px 0;
+      font-size: 1rem;
+
+      &:hover,
+      &:active {
+          background-color: rgba(39, 160, 130, 0.9);
+      }
+    }
+}

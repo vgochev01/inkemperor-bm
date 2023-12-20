@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faArrowLeft, faXmark } from '@fortawesome/free-solid-svg-icons';
-import './App.scss';
 import {
   BrowserRouter as Router,
   Routes,
@@ -11,9 +10,12 @@ import Menu from './components/Menu/Menu';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import Calendar from './components/Calendar/Calendar';
 import LoginPage from './components/LoginPage/LoginPage';
+import CreateEvent from './components/CreateEvent/CreateEvent';
+import './App.scss';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
-  const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const [isPanelOpen, setIsPanelOpen] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(true);
 
   const togglePanel = () => {
@@ -40,6 +42,11 @@ function App() {
             <Route path="/" element={
               <ProtectedRoute isAuthenticated={isAuthenticated}>
                 <Calendar />
+              </ProtectedRoute>
+            } />
+            <Route path="/create-event" element={
+              <ProtectedRoute isAuthenticated={isAuthenticated}>
+                <CreateEvent />
               </ProtectedRoute>
             } />
           </Routes>

@@ -13,73 +13,37 @@
         overflow-y: scroll;
         margin: 60px 0 0;
     }
-}
 
-#monthDisplay {
-    background-color: transparent;
-    color: black;
-    padding: 20px;
-    text-align: left;
-    font-size: 24px;
-    font-weight: bold;
-    display: flex;
-    justify-content: space-between;
+    .fc-toolbar-title {
+        color: #27a082;
+    }
 
-    button:not(.view-button) {
-        border: none;
+    .fc-button {
+        background: #27a082;
+        border-radius: 5px;
+
+        &:focus {
+            box-shadow: none;
+        }
+
+        &:hover:not(.fc-today-button[disabled]) {
+            background: #33b292;
+        }
+    }
+
+    .fc-button-group {
+        column-gap: 5px;
+    }
+
+    .fc-col-header-cell-cushion {
+        color: #33b292;
+    }
+
+    .fc-daygrid-day-number {
+        color: #33b292;
+    }
+
+    td.fc-day-today {
         background: #F9FAFB;
-        color: black;
-        padding: 10px;
-        border-radius: 50%;
-        cursor: pointer;
-        font-weight: bold;
-        font-size: 1rem;
-
-        &:hover {
-            background: #FFF;
-        }
     }
-
-    .datepicker-icon {
-        display: inline-block;
-        position: relative;
-
-        .open-datepicker {
-            margin-left: 10px;
-        }
-    }
-
-    .datepicker-container {
-        position: absolute;
-        top: 0;
-        right: 0;
-        transform: translateX(calc(100% + 10px));
-        z-index: 999;
-    }
-}
-
-#daysOfWeek {
-    display: flex;
-    flex-wrap: wrap;
-    padding: 10px 0 0;
-}
-
-#daysOfWeek div {
-    flex: 1;
-    text-align: center;
-    font-weight: bold;
-}
-
-#calendarDays {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    padding: 10px;
-
-    @include respond-to(phones) {
-        grid-template-columns: 1fr;
-    }
-}
-
-.icon-cta {
-    cursor: pointer;
 }
