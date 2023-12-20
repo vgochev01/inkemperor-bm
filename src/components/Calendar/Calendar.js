@@ -5,6 +5,7 @@ import DayView from '../DayView/DayView';
 import DisplayDate from '../DisplayDate/DisplayDate';
 import CalendarNavigation from '../CalendarNavigation/CalendarNavigation';
 import DatePickerWrapper from '../DatePickerWrapper/DatePickerWrapper';
+import { Scheduler } from "@aldabil/react-scheduler";
 import './Calendar.scss';
 
 const Calendar = () => {
@@ -30,14 +31,24 @@ const Calendar = () => {
 
     return (
         <div id="calendar">
-            <div id="monthDisplay">
-                <span className="current-month">
-                    <DisplayDate currentDate={currentDate} viewType={viewType} />
-                    <DatePickerWrapper currentDate={currentDate} setCurrentDate={setCurrentDate} />
-                </span>
-                <CalendarNavigation currentDate={currentDate} setCurrentDate={setCurrentDate} viewType={viewType} setViewType={setViewType} />
-            </div>
-            {renderView()}
+            <Scheduler
+                view="week"
+                height="900"
+                events={[
+                    {
+                    event_id: 1,
+                    title: "Event 1",
+                    start: new Date("2023/12/20 09:30"),
+                    end: new Date("2023/12/20 10:30"),
+                    },
+                    {
+                    event_id: 2,
+                    title: "Event 2",
+                    start: new Date("2023/12/20 09:30"),
+                    end: new Date("2023/12/21 11:30"),
+                    },
+                ]}
+            />
         </div>
     );
 };

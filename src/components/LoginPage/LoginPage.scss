@@ -1,4 +1,5 @@
 @import 'node_modules/bootstrap/scss/bootstrap';
+@import '../../scss/mixins';
 
 .login-container {
   height: 100vh;
@@ -14,6 +15,10 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
   width: 480px;
+
+  @include respond-to(phones) {
+    width: 100%;
+  }
 }
 
 .login-form {

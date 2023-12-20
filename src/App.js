@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faArrowLeft, faXmark } from '@fortawesome/free-solid-svg-icons';
 import './App.scss';
@@ -7,6 +7,7 @@ import {
   Routes,
   Route,
 } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import Menu from './components/Menu/Menu';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import Calendar from './components/Calendar/Calendar';
@@ -16,12 +17,18 @@ function App() {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(true);
 
+  const location = useLocation();
+
+  useEffect(() => {
+    setIsPanelOpen(false);
+  }, [location]);
+
   const togglePanel = () => {
     setIsPanelOpen(!isPanelOpen);
   };
 
   return (
-    <div className="app-container">
+    <div className={`app-container`}>
       <div className={`side-panel ${isPanelOpen ? 'open' : 'closed'}`}>
         {isPanelOpen ? (
           <FontAwesomeIcon icon={faArrowLeft} className="toggle-icon" onClick={togglePanel} />
