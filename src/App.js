@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
+import { useAuth } from './context/AuthContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faArrowLeft, faXmark } from '@fortawesome/free-solid-svg-icons';
 import {
-  BrowserRouter as Router,
   Routes,
-  Route,
+  Route
 } from 'react-router-dom';
 import Menu from './components/Menu/Menu';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
@@ -16,7 +16,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   const [isPanelOpen, setIsPanelOpen] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const { isAuthenticated} = useAuth();
+  console.log(isAuthenticated);
 
   const togglePanel = () => {
     setIsPanelOpen(!isPanelOpen);
@@ -47,6 +48,11 @@ function App() {
             <Route path="/create-event" element={
               <ProtectedRoute isAuthenticated={isAuthenticated}>
                 <CreateEvent />
+              </ProtectedRoute>
+            } />
+            <Route path="/analytics" element={
+              <ProtectedRoute isAuthenticated={isAuthenticated}>
+                {/* <Analytics /> */}
               </ProtectedRoute>
             } />
           </Routes>

@@ -3,13 +3,19 @@ import { Container, Row, Col, Card } from 'react-bootstrap';
 import { faUser, faLock } from '@fortawesome/free-solid-svg-icons';
 import CustomForm from '../CustomForm/CustomForm';
 import * as authService from '../../services/authService';
+import { useAuth } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 import './LoginPage.scss';
 
 const LoginPage = () => {
+  const { updateAuthState } = useAuth();
+  const navigate = useNavigate();
+
   const formFields = [
     {
       controlId: 'username',
+      name: 'username',
       label: 'Username',
       icon: faUser,
       type: 'text',
@@ -19,6 +25,7 @@ const LoginPage = () => {
     },
     {
       controlId: 'password',
+      name: 'password',
       label: 'Password',
       icon: faLock,
       type: 'password',
@@ -32,16 +39,19 @@ const LoginPage = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    const formData = Object.fromEntries(new FormData(e.currentTarget));
+    if(e.nativeEvent && e.nativeEvent.target){
+      const { username, password } = Object.fromEntries(new FormData(e.nativeEvent.target));
 
-    try {
-        const data = await authService.login(formData);
-        // setUser
-        // navigate
-    } catch(err) {
-        alert(err);
+      try {
+          const data = await authService.login(username, password);
+          if (data && data.accessToken) {
+            updateAuthState({ email: data.email, username: data.username }, data.accessToken);
+            navigate('/');
+          }
+      } catch(err) {
+          alert(err);
+      }
     }
-
   };
 
   return (

@@ -19,6 +19,18 @@ form {
       }
     }
 
+    .form-check-input {
+      cursor: pointer;
+
+      &:checked {
+        background-color: #27a082;
+      }
+
+      &:active {
+        box-shadow: none;
+      }
+    }
+
     #submitFormBtn {
       background-color: #27a082;
       padding: 10px 0;

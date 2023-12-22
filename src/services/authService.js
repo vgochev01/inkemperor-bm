@@ -22,8 +22,8 @@ async function request(path, data, token) {
     return resData;
 }
 
-export const login = async (email, password) => {
-    return request('/login', { email, password });
+export const login = async (username, password) => {
+    return request('/login', { username, password });
 
 };
 
