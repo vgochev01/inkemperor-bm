@@ -2,26 +2,28 @@ import React from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarAlt, faChartSimple, faCalendarPlus, faUserShield } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarAlt, faChartSimple, faCalendarPlus, faUserShield, faUserGroup } from '@fortawesome/free-solid-svg-icons';
 import './Menu.scss';
 
-const Menu = () => {
+const Menu = ({ setIsPanelOpen }) => {
     const { isAuthenticated, updateAuthState } = useAuth();
     const navigate = useNavigate();
 
     const handleLogout = () => {
         updateAuthState();
         navigate('/auth');
+        setIsPanelOpen(false);
     };
 
     const menuItems = [
         { path: '/', name: 'Calendar', icon: faCalendarAlt },
         { path: '/create-event', name: 'Create Event', icon: faCalendarPlus },
+        { path: '/artists', name: 'Tattoo Artists', icon: faUserGroup },
         { path: '/analytics', name: 'Analytics', icon: faChartSimple },
     ];
 
     if (isAuthenticated) {
-        menuItems.push({ path: '/', name: 'Logout', icon: faUserShield, action: handleLogout });
+        menuItems.push({ path: '/logout', name: 'Logout', icon: faUserShield, action: handleLogout });
     } else {
         menuItems.push({ path: '/auth', name: 'Login', icon: faUserShield });
     }
@@ -41,6 +43,7 @@ const Menu = () => {
                             to={item.path}
                             key={item.path}
                             className={({ isActive }) => isActive ? "menu-item active" : "menu-item"}
+                            onClick={() => setIsPanelOpen(false)}
                         >
                             <FontAwesomeIcon icon={item.icon} className="menu-item-icon" />
                             {item.name}

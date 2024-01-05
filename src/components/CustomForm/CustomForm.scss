@@ -41,4 +41,23 @@ form {
           background-color: rgba(39, 160, 130, 0.9);
       }
     }
+
+    .custom-select {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      background-repeat: no-repeat;
+      background-position: right .75rem center;
+      background-size: .65em auto;
+      cursor: pointer;
+
+      & ~ .fa-chevron-down {
+        position: absolute;
+        top: 50%;
+        right: 5%;
+        transform: translateY(-50%);
+        z-index: 999;
+        pointer-events: none;
+      }
+    }
 }

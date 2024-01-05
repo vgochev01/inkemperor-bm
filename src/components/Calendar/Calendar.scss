@@ -8,11 +8,7 @@
     overflow: hidden;
     width: 100%;
     margin: 20px 0;
-
-    @include respond-to(phones) {
-        overflow-y: scroll;
-        margin: 60px 0 0;
-    }
+    padding: 0 25px;
 
     .fc-toolbar-title {
         color: #27a082;
@@ -45,5 +41,32 @@
 
     td.fc-day-today {
         background: #F9FAFB;
+    }
+
+    @include respond-to(phones) {
+        overflow-y: scroll;
+        margin: 60px 0 20px;
+        padding: 0 10px;
+
+        .fc-header-toolbar {
+            margin: 1rem 0;
+            flex-wrap: wrap;
+            row-gap: 1rem;
+
+            .fc-toolbar-chunk:first-of-type,
+            .fc-toolbar-chunk:last-of-type {
+                order: 2;
+            }
+
+            .fc-toolbar-chunk:nth-of-type(2) {
+                flex-basis: 100%;
+                order: 1;
+            }
+        }
+
+        #moreEventsLink {
+            color: #000;
+            font-weight: bolder;
+        }
     }
 }

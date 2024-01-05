@@ -8,7 +8,8 @@ import { useNavigate } from 'react-router-dom';
 
 import './LoginPage.scss';
 
-const LoginPage = () => {
+const LoginPage = ({ setIsPanelOpen }) => {
+  const [error, setError] = useState('');
   const { updateAuthState } = useAuth();
   const navigate = useNavigate();
 
@@ -47,9 +48,10 @@ const LoginPage = () => {
           if (data && data.accessToken) {
             updateAuthState({ email: data.email, username: data.username }, data.accessToken);
             navigate('/');
+            setIsPanelOpen(false);
           }
       } catch(err) {
-          alert(err);
+          setError(err?.message || 'Something went wrong! Please try again later!');
       }
     }
   };
@@ -60,7 +62,7 @@ const LoginPage = () => {
         <Col>
             <Card className="login-card">
             <Card.Body>
-                <CustomForm fields={fields} onSubmit={onSubmit} title="Sign In" />
+                <CustomForm fields={fields} onSubmit={onSubmit} title="Sign In" error={error} />
             </Card.Body>
             </Card>
         </Col>

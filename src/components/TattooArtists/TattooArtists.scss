@@ -1,0 +1,63 @@
+@import '../../scss/mixins';
+
+#tattooArtists {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0;
+    background-color: #E3F3F0;
+
+    .card {
+        width: 480px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+        @include respond-to(phones) {
+            width: 100%;
+        }
+    }
+
+    .artist {
+        padding: 15px 0;
+        border-bottom: 1px solid black;
+
+        &:first-of-type {
+            padding-top: 0;
+        }
+
+        &:last-of-type {
+            border: none;
+            padding-bottom: 0;
+        }
+
+        &-name {
+            font-weight: bold;
+        }
+
+        &-events {
+            color: #27a082;
+            font-weight: bold;
+        }
+
+        &-color-picker {
+            margin-left: .5rem;
+            border: none;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        button {
+            margin-left: .5rem;
+
+            @include respond-to(phones) {
+                margin-left: 0;
+            }
+        }
+    }
+
+    @include respond-to(phones) {
+        display: block;
+        margin-top: 60px;
+        padding-top: 30px;
+    }
+}

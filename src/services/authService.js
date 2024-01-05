@@ -1,36 +1,14 @@
-async function request(path, data, token) {
-    let options = {
-        method: data ? 'POST' : 'GET',
-        headers: {
-            'content-type': 'application/json'
-        },
-        body: data ? JSON.stringify(data) : null
-    };
-
-    if(token){
-        options.headers['X-Authorization'] = token;
-    }
-
-    const response = await fetch(`http://localhost:3030/users${path}`, options);
-
-
-    const resData = await response.json();
-    if(!response.ok) {
-        throw new Error(resData.message);
-    }
-
-    return resData;
-}
+import { request } from "../util/ajax";
 
 export const login = async (username, password) => {
-    return request('/login', { username, password });
+    return request('/users/login', 'POST', { username, password });
 
 };
 
 export const register = (email, username, password) => {
-    return request('/register', { email, username, password });
+    return request('/users/register', 'POST', { email, username, password });
 }
 
 export const getProfile = (token) => {
-    return request('/profile', null, token);
+    return request('/users/profile', 'GET', null, token);
 }

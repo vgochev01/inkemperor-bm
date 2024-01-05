@@ -1,11 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import CustomForm from '../CustomForm/CustomForm';
-import { faCalendarAlt, faUserTie, faUser, faEnvelope, faPhone, faCamera, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarAlt, faUserTie, faUser, faEnvelope, faPhone, faCamera, faInfoCircle, faClockRotateLeft, faSackDollar } from '@fortawesome/free-solid-svg-icons';
 import { faSquareInstagram } from '@fortawesome/free-brands-svg-icons';
+import * as eventService from '../../services/eventService';
+import { useAuth } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import './CreateEvent.scss';
 
-const CreateEvent = () => {
+const CreateEvent = ({ artists }) => {
+    const [error, setError] = useState('');
+    const errorRef = useRef(null);
+    const navigate = useNavigate();
+    const { accessToken } = useAuth();
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(new Date());
+
     const [eventData, setEventData] = useState({
         from: '',
         to: '',
@@ -15,7 +25,7 @@ const CreateEvent = () => {
         sessionLength: '',
         clientName: '',
         clientEmail: '',
-        clientPhone: '',
+        clientPhoneNumber: '',
         clientInstagram: '',
         deposit: '',
         additionalInfo: '',
@@ -36,7 +46,21 @@ const CreateEvent = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        console.log(eventData);
+        // Create a FormData object and append each field to it
+        const formData = new FormData();
+        for (const key in eventData) {
+            if (eventData.hasOwnProperty(key)) {
+                formData.append(key, eventData[key]);
+            }
+        }
+
+        eventService.createEvent(formData, accessToken)
+            .then(data => {
+                navigate(`/?eventId=${data._id}`);
+            })
+            .catch(err => {
+                setError(err?.message || 'Something went wrong! Please try again later!');
+            });
     };
 
     const fields = [
@@ -46,9 +70,11 @@ const CreateEvent = () => {
             icon: faCalendarAlt,
             type: 'datetime-local',
             name: 'from',
+            date: startDate,
+            setDate: setStartDate,
+            required: true,
             inputProps: {
                 value: eventData.from,
-                onChange: handleInputChange
             }
         },
         {
@@ -57,9 +83,11 @@ const CreateEvent = () => {
             icon: faCalendarAlt,
             type: 'datetime-local',
             name: 'to',
+            date: endDate,
+            setDate: setEndDate,
+            required: true,
             inputProps: {
                 value: eventData.to,
-                onChange: handleInputChange
             }
         },
         {
@@ -86,8 +114,15 @@ const CreateEvent = () => {
             controlId: 'tattooArtist',
             label: 'Tattoo Artist',
             icon: faUserTie,
-            type: 'text',
-            name: 'tattooArtist',
+            type: 'select',
+            name: 'tattooArtist', // Options should be populated with tattoo artist IDs
+            options: artists.map(artist => {
+                return {
+                    value: artist._id,
+                    text: artist.name
+                }
+            }),
+            required: true,
             inputProps: {
                 value: eventData.tattooArtist,
                 onChange: handleInputChange
@@ -96,8 +131,10 @@ const CreateEvent = () => {
         {
             controlId: 'sessionLength',
             label: 'Session Length',
+            icon: faClockRotateLeft,
             type: 'select',
             name: 'sessionLength',
+            required: true,
             options: [
                 { value: '1.5', text: 'Short Session - 1.5 hours' },
                 { value: '3', text: 'Avg Session - 3 hours' },
@@ -111,8 +148,10 @@ const CreateEvent = () => {
         {
             controlId: 'deposit',
             label: 'Deposit (BGN)',
+            icon: faSackDollar,
             type: 'number',
             name: 'deposit',
+            required: true,
             inputProps: {
                 value: eventData.deposit,
                 onChange: handleInputChange
@@ -124,6 +163,7 @@ const CreateEvent = () => {
             icon: faUser,
             type: 'text',
             name: 'clientName',
+            required: true,
             inputProps: {
                 value: eventData.clientName,
                 onChange: handleInputChange
@@ -141,11 +181,12 @@ const CreateEvent = () => {
             }
         },
         {
-            controlId: 'clientPhone',
+            controlId: 'clientPhoneNumber',
             label: 'Client Phone Number',
             icon: faPhone,
             type: 'text',
-            name: 'clientPhone',
+            name: 'clientPhoneNumber',
+            required: true,
             inputProps: {
                 value: eventData.clientPhone,
                 onChange: handleInputChange
@@ -168,6 +209,7 @@ const CreateEvent = () => {
             icon: faInfoCircle,
             type: 'textarea',
             name: 'additionalInfo',
+            fullWidth: true,
             inputProps: {
                 value: eventData.additionalInfo,
                 onChange: handleInputChange
@@ -179,19 +221,42 @@ const CreateEvent = () => {
             icon: faCamera,
             type: 'file',
             name: 'photo',
+            fullWidth: true,
             inputProps: {
                 onChange: handleInputChange
             }
         }
     ];
 
+
+
+    useEffect(() => {
+        setEventData(prevState => ({
+            ...prevState,
+            from: startDate.toISOString(),
+            to: endDate.toISOString()
+        }));
+    }, [startDate, endDate]);
+
+    useEffect(() => {
+        document.body.scrollTop = 0;
+      }, [error]);
+
+    useEffect(() => {
+        setEventData(prevState => ({
+            ...prevState,
+            tattooArtist: artists.length > 0 && artists[0]._id
+        }));
+    }, []);
+
     return (
         <Container className="d-flex justify-content-center align-items-center" id="createFormContainer">
-            <Row>
-            <Col>
+            <Row className="m-0">
+            <Col className="p-0">
                 <Card className="create-event-card">
-                <Card.Body>
-                    <CustomForm fields={fields} onSubmit={handleSubmit} title="Create Event" />
+                <Card.Body className='mb-4'>
+                    <div ref={errorRef}></div>
+                    <CustomForm enctype="multipart/form-data" fields={fields} onSubmit={handleSubmit} title="Create Event" error={error} />
                 </Card.Body>
                 </Card>
             </Col>
