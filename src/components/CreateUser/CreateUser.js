@@ -4,55 +4,23 @@ import { faEnvelope, faUser, faLock, faUserTag } from '@fortawesome/free-solid-s
 import CustomForm from '../CustomForm/CustomForm';
 import * as authService from '../../services/authService';
 import { useNavigate } from 'react-router-dom';
+import userFormFields from '../../forms/user';
 
 import './CreateUser.scss';
 
 const CreateUser = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const [userData, setUserData] = useState({
+    email: '',
+    username: '',
+    password: '',
+    userRole: 'owner'
+  });
 
-  const formFields = [
-    {
-      controlId: 'email',
-      name: 'email',
-      label: 'Email',
-      icon: faEnvelope,
-      type: 'email',
-      placeholder: 'Enter email',
-    },
-    {
-      controlId: 'username',
-      name: 'username',
-      label: 'Username',
-      icon: faUser,
-      type: 'text',
-      placeholder: 'Enter username',
-    },
-    {
-      controlId: 'password',
-      name: 'password',
-      label: 'Password',
-      icon: faLock,
-      type: 'password',
-      placeholder: 'Password',
-    },
-    {
-      controlId: 'userRole',
-      name: 'userRole',
-      label: 'User Role',
-      icon: faUserTag,
-      type: 'select',
-      options: [
-        { value: 'owner', text: 'Owner' },
-        { value: 'artist', text: 'Artist' },
-        { value: 'subscriber', text: 'Subscriber' }
-      ],
-      placeholder: 'Select User Role',
-    }
-  ];
+  const formFields = userFormFields(userData, 'create');
 
   const onSubmit = async (e) => {
-    e.preventDefault();
     if(e.nativeEvent && e.nativeEvent.target){
       const formData = Object.fromEntries(new FormData(e.nativeEvent.target));
 
@@ -73,7 +41,7 @@ const CreateUser = () => {
         <Col>
           <Card className="create-user-card">
             <Card.Body>
-              <CustomForm fields={formFields} onSubmit={onSubmit} title="Create User" error={error} />
+              <CustomForm fields={formFields} customSubmit={onSubmit} data={userData} setData={setUserData} title="Create User" error={error} />
             </Card.Body>
           </Card>
         </Col>

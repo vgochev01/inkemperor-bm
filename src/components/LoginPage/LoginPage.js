@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
-import { faUser, faLock } from '@fortawesome/free-solid-svg-icons';
 import CustomForm from '../CustomForm/CustomForm';
 import * as authService from '../../services/authService';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { isMobile } from 'react-device-detect';
-
+import userFormFields from '../../forms/user';
 import './LoginPage.scss';
 
 const LoginPage = ({ setIsPanelOpen }) => {
@@ -14,32 +13,14 @@ const LoginPage = ({ setIsPanelOpen }) => {
   const { setAuthInfo } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const [userData, setUserData] = useState({
+    username: '',
+    password: ''
+  })
 
-  const formFields = [
-    {
-      controlId: 'username',
-      name: 'username',
-      label: 'Username',
-      icon: faUser,
-      type: 'text',
-      placeholder: 'Enter username',
-      inputProps: {
-      }
-    },
-    {
-      controlId: 'password',
-      name: 'password',
-      label: 'Password',
-      icon: faLock,
-      type: 'password',
-      placeholder: 'Password',
-      inputProps: {
-      }
-    }
-  ];
+  const formFields = userFormFields(userData, 'login');
 
   const onSubmit = async (e) => {
-    e.preventDefault();
     if (e.nativeEvent && e.nativeEvent.target) {
         const { username, password } = Object.fromEntries(new FormData(e.nativeEvent.target));
 
@@ -54,7 +35,7 @@ const LoginPage = ({ setIsPanelOpen }) => {
             setError(err?.message || 'Something went wrong! Please try again later!');
         }
     }
-};
+  };
 
 
   useEffect(() => {
@@ -69,7 +50,7 @@ const LoginPage = ({ setIsPanelOpen }) => {
         <Col>
             <Card className="login-card">
             <Card.Body>
-                <CustomForm fields={formFields} onSubmit={onSubmit} title="Sign In" error={error} />
+                <CustomForm auth={false} fields={formFields} customSubmit={onSubmit} data={userData} setData={setUserData} title="Sign In" error={error} />
             </Card.Body>
             </Card>
         </Col>

@@ -9,7 +9,6 @@ import eventFormFields from '../../forms/event';
 import './CreateEvent.scss';
 
 const CreateEvent = ({ calendars, artists }) => {
-    const [validationState, setValidationState] = useState({});
     const [error, setError] = useState('');
     const errorRef = useRef(null);
     const navigate = useNavigate();
@@ -24,7 +23,7 @@ const CreateEvent = ({ calendars, artists }) => {
         allDay: false,
         recurring: false,
         tattooArtist: artists.length > 0 ? artists[0]._id : '',
-        sessionLength: '',
+        sessionLength: '1.5',
         clientName: '',
         clientEmail: '',
         clientPhoneNumber: '',
@@ -36,15 +35,8 @@ const CreateEvent = ({ calendars, artists }) => {
     });
 
     const handleSubmit = (e) => {
-        e.preventDefault();
-
         if(!Array.isArray(calendars) || calendars.length === 0) {
             setError('We could not find any calendars in your profile!');
-            return;
-        }
-
-        if(!user || !isAuthenticated) {
-            navigate('/login');
             return;
         }
 
@@ -57,17 +49,6 @@ const CreateEvent = ({ calendars, artists }) => {
                 eventData['calendarId'] = sessionsCalendar._id;
             }
         }
-
-        const isFormValid = fields.every(field => validateField(field.name, eventData[field.name]));
-        if (!isFormValid) {
-            // Update validation state for all fields
-            const newValidationState = {};
-            fields.forEach(field => {
-              newValidationState[field.name] = validateField(field.name, eventData[field.name]);
-            });
-            setValidationState(newValidationState);
-            return;
-          }
 
         // Create a FormData object and append each field to it
         const formData = new FormData();
@@ -86,18 +67,10 @@ const CreateEvent = ({ calendars, artists }) => {
             });
     };
 
-    const handleInputChange = (e) => {
-        const { name, value, type, checked, files } = e.target;
+    const handleInputChange = (e, fieldData, setFieldData, setValidationState) => {
+        const { name, value } = e.target;
         if (name === 'calendarId') {
             setSelectedCalendarId(value);
-        } else {
-            // Set the state based on input type
-            setEventData(prevState => {
-                return {
-                    ...prevState,
-                    [name]: type === 'checkbox' ? checked : type === 'file' ? files[0] : value
-                };
-            });
         }
 
         setValidationState(prevState => ({ ...prevState, [name]: true }));
@@ -114,8 +87,7 @@ const CreateEvent = ({ calendars, artists }) => {
         }),
         required: true,
         inputProps: {
-            value: selectedCalendarId,
-            onChange: handleInputChange
+            value: selectedCalendarId
         }
     };
 
@@ -130,23 +102,9 @@ const CreateEvent = ({ calendars, artists }) => {
     });
 
     const fields = [
-        ...(user.userRole === 'owner' ? [{ ...calendarSelectField, isValid: validationState['calendarId'] !== false }] : []),
-        ...eventFields.map(field => ({ ...field, isValid: validationState[field.name] !== false }))
+        ...(user.userRole === 'owner' ? [calendarSelectField] : []),
+        ...eventFields
     ];
-
-    const validateField = (name, value) => {
-        console.log(name, value);
-        if (fields.find(f => f.name === name).required) {
-          return value.trim() !== '';
-        }
-        return true;
-    };
-
-    const handleBlur = (e) => {
-        const { name, value } = e.target;
-        const isValid = validateField(name, value);
-        setValidationState(prevState => ({ ...prevState, [name]: isValid }));
-    };
 
     useEffect(() => {
         if (user.userRole === 'owner' && calendars.length) {
@@ -180,6 +138,13 @@ const CreateEvent = ({ calendars, artists }) => {
         }));
     }, [artists]);
 
+    useEffect(() => {
+        setEventData(prevState => ({
+            ...prevState,
+            calendarId: selectedCalendarId
+        }))
+    }, [selectedCalendarId]);
+
     return (
         <Container className="d-flex justify-content-center align-items-center" id="createFormContainer">
             <Row className="m-0">
@@ -187,7 +152,7 @@ const CreateEvent = ({ calendars, artists }) => {
                 <Card className="create-event-card">
                 <Card.Body className='mb-4'>
                     <div ref={errorRef}></div>
-                    <CustomForm enctype="multipart/form-data" fields={fields} onSubmit={handleSubmit} title="Create Event" error={error} onBlur={handleBlur} />
+                    <CustomForm enctype="multipart/form-data" fields={fields} data={eventData} setData={setEventData} customSubmit={handleSubmit} customInputChange={handleInputChange} title="Create Event" error={error} />
                 </Card.Body>
                 </Card>
             </Col>

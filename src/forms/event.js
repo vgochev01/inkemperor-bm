@@ -34,8 +34,7 @@ const eventFormFields = (data) => [
         type: 'checkbox',
         name: 'allDay',
         inputProps: {
-            checked: data.eventData.allDay,
-            onChange: data.handleInputChange
+            checked: data.eventData.allDay
         }
     },
     {
@@ -44,8 +43,7 @@ const eventFormFields = (data) => [
         type: 'checkbox',
         name: 'recurring',
         inputProps: {
-            checked: data.eventData.recurring,
-            onChange: data.handleInputChange
+            checked: data.eventData.recurring
         }
     },
     {
@@ -62,8 +60,7 @@ const eventFormFields = (data) => [
         }),
         required: true,
         inputProps: {
-            value: data.eventData.tattooArtist,
-            onChange: data.handleInputChange
+            value: data.eventData.tattooArtist
         }
     },
     {
@@ -79,8 +76,7 @@ const eventFormFields = (data) => [
             { value: '5', text: 'Long Session - 5 hours' }
         ],
         inputProps: {
-            value: data.eventData.sessionLength,
-            onChange: data.handleInputChange
+            value: data.eventData.sessionLength
         }
     },
     {
@@ -90,8 +86,7 @@ const eventFormFields = (data) => [
         type: 'number',
         name: 'deposit',
         inputProps: {
-            value: data.eventData.deposit,
-            onChange: data.handleInputChange
+            value: data.eventData.deposit
         }
     },
     {
@@ -102,8 +97,7 @@ const eventFormFields = (data) => [
         name: 'revenue',
         required: true,
         inputProps: {
-            value: data.eventData.revenue,
-            onChange: data.handleInputChange
+            value: data.eventData.revenue
         }
     },
     {
@@ -114,8 +108,7 @@ const eventFormFields = (data) => [
         name: 'clientName',
         required: true,
         inputProps: {
-            value: data.eventData.clientName,
-            onChange: data.handleInputChange
+            value: data.eventData.clientName
         }
     },
     {
@@ -125,8 +118,7 @@ const eventFormFields = (data) => [
         type: 'email',
         name: 'clientEmail',
         inputProps: {
-            value: data.eventData.clientEmail,
-            onChange: data.handleInputChange
+            value: data.eventData.clientEmail
         }
     },
     {
@@ -137,8 +129,7 @@ const eventFormFields = (data) => [
         name: 'clientPhoneNumber',
         required: true,
         inputProps: {
-            value: data.eventData.clientPhoneNumber,
-            onChange: data.handleInputChange
+            value: data.eventData.clientPhoneNumber
         }
     },
     {
@@ -148,8 +139,7 @@ const eventFormFields = (data) => [
         type: 'text',
         name: 'clientInstagram',
         inputProps: {
-            value: data.eventData.clientInstagram,
-            onChange: data.handleInputChange
+            value: data.eventData.clientInstagram
         }
     },
     {
@@ -160,8 +150,7 @@ const eventFormFields = (data) => [
         name: 'additionalInfo',
         fullWidth: true,
         inputProps: {
-            value: data.eventData.additionalInfo,
-            onChange: data.handleInputChange
+            value: data.eventData.additionalInfo
         }
     },
     {
