@@ -88,7 +88,8 @@ const TattooArtists = ({ artists, setArtists }) => {
             inputProps: {
                 value: artistData.name,
                 onChange: handleInputChange
-            }
+            },
+            fullWidth: true
         },
         {
             controlId: 'artistColor',
@@ -99,7 +100,8 @@ const TattooArtists = ({ artists, setArtists }) => {
             inputProps: {
                 value: artistData.color,
                 onChange: handleInputChange
-            }
+            },
+            fullWidth: true
         }
     ];
 

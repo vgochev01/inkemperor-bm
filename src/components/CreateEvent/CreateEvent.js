@@ -30,6 +30,7 @@ const CreateEvent = ({ calendars, artists }) => {
         clientInstagram: '',
         deposit: '',
         revenue: '',
+        paymentMethod: 'cash',
         additionalInfo: '',
         photo: null
     });
@@ -86,6 +87,7 @@ const CreateEvent = ({ calendars, artists }) => {
             return { value: cal._id, text: cal.name };
         }),
         required: true,
+        fullWidth: true,
         inputProps: {
             value: selectedCalendarId
         }

@@ -20,6 +20,9 @@ const EventDetails = ({ event, artists, setShowModal, fetchEvents }) => {
 
     const [showEventPhoto, setShowEventPhoto] = useState(false);
 
+    const { apiEvent } = event?.extendedProps;
+    console.log(apiEvent);
+    console.log(event.extendedProps);
     const [eventData, setEventData] = useState({
         from: '',
         to: '',
@@ -32,11 +35,11 @@ const EventDetails = ({ event, artists, setShowModal, fetchEvents }) => {
         clientPhoneNumber: event.extendedProps.clientInfo.phoneNumber,
         clientInstagram: event.extendedProps.clientInfo.instagram,
         deposit: event.extendedProps.deposit,
+        revenue: event.extendedProps.revenue,
+        paymentMethod: event.extendedProps.paymentMethod,
         additionalInfo: event.extendedProps.additionalInfo,
         photo: null
     });
-
-    console.log(event.extendedProps);
 
     const handleInputChange = (e) => {
         const { name, value, type, checked, files } = e.target;
@@ -128,7 +131,7 @@ const EventDetails = ({ event, artists, setShowModal, fetchEvents }) => {
 					'https://www.sixbulletstattoo.com/wp-content/uploads/freshizer/126db884dca13ad4da958c41bf3dbb95_IMG-9499-768-c-90.jpg'
 				]}
         />
-        <CustomForm enctype="multipart/form-data" fields={fields} onSubmit={handleSubmit} error={error} />
+        <CustomForm enctype="multipart/form-data" fields={fields} data={eventData} setData={setEventData} customSubmit={handleSubmit} error={error} />
         <Button variant="outline-secondary" className={`w-100 mt-3 delete-event-btn}`} onClick={deleteEvent}>
             Delete Event
         </Button>

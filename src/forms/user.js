@@ -10,6 +10,7 @@ const userFormFields = (data, mode) => {
       type: 'email',
       placeholder: 'Enter email',
       required: true,
+      fullWidth: true,
     },
     {
       controlId: 'username',
@@ -19,6 +20,7 @@ const userFormFields = (data, mode) => {
       type: 'text',
       placeholder: 'Enter username',
       required: true,
+      fullWidth: true
     },
     {
       controlId: 'password',
@@ -27,7 +29,8 @@ const userFormFields = (data, mode) => {
       icon: faLock,
       type: 'password',
       placeholder: 'Password',
-      required: true
+      required: true,
+      fullWidth: true
     },
     {
       controlId: 'userRole',
@@ -42,6 +45,7 @@ const userFormFields = (data, mode) => {
       ],
       placeholder: 'Select User Role',
       required: true,
+      fullWidth: true
     }
   ];
 

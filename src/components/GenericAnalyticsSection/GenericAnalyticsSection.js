@@ -4,7 +4,7 @@ import DataChart from '../DataChart/DataChart';
 import DateSelector from '../DateSelector/DateSelector';
 import { useAuth } from '../../context/AuthContext';
 
-const GenericAnalyticsSection = ({ title, fetchFunction, chartLabel, dataType, yTitle }) => {
+const GenericAnalyticsSection = ({ selectedCalendar, title, fetchFunction, chartLabel, dataType, yTitle }) => {
     const [selectedPeriod, setSelectedPeriod] = useState('month');
     const [customPeriod, setCustomPeriod] = useState({
         start: new Date().toISOString(),
@@ -31,27 +31,28 @@ const GenericAnalyticsSection = ({ title, fetchFunction, chartLabel, dataType, y
     };
 
     useEffect(() => {
-        // Fetch data whenever selectedPeriod or customPeriod changes
-        fetchFunction(selectedPeriod, customPeriod, accessToken)
-            .then(response => {
-                const analyticsData = dataType === 'revenue' ? response.revenue : response;
-                const labels = analyticsData.data.map(item => item._id.toString());
-                const dataValues = analyticsData.data.map(item => {
-                    return dataType === 'revenue' ? item.totalRevenue : item.count;
-                });
-                setChartData({
-                    labels: labels,
-                    datasets: [{
-                        label: chartLabel,
-                        data: dataValues,
-                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        borderWidth: 1,
-                    }],
-                });
-            })
-            .catch(error => console.error('Error fetching data:', error));
-    }, [selectedPeriod, customPeriod, accessToken, fetchFunction, dataType, chartLabel]);
+        if(selectedCalendar && selectedCalendar._id) {
+            // Fetch data whenever selectedPeriod or customPeriod changes
+            fetchFunction(selectedPeriod, customPeriod, accessToken)
+                .then(response => {
+                    const labels = response.map(item => item._id.toString());
+                    const dataValues = response.map(item => {
+                        return dataType === 'revenue' ? item.totalRevenue : item.count;
+                    });
+                    setChartData({
+                        labels: labels,
+                        datasets: [{
+                            label: chartLabel,
+                            data: dataValues,
+                            backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1,
+                        }],
+                    });
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        }
+    }, [selectedCalendar, selectedPeriod, customPeriod, accessToken, fetchFunction, dataType, chartLabel]);
 
     const handleDateForMonth = (date) => {
         setCustomPeriod({

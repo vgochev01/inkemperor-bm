@@ -33,6 +33,7 @@ const eventFormFields = (data) => [
         label: 'All Day',
         type: 'checkbox',
         name: 'allDay',
+        fullWidth: true,
         inputProps: {
             checked: data.eventData.allDay
         }
@@ -42,6 +43,7 @@ const eventFormFields = (data) => [
         label: 'Recurring',
         type: 'checkbox',
         name: 'recurring',
+        fullWidth: true,
         inputProps: {
             checked: data.eventData.recurring
         }
@@ -98,6 +100,21 @@ const eventFormFields = (data) => [
         required: true,
         inputProps: {
             value: data.eventData.revenue
+        }
+    },
+    {
+        controlId: 'paymentMethod',
+        label: 'Payment Method',
+        icon: faClockRotateLeft,
+        type: 'select',
+        name: 'paymentMethod',
+        required: true,
+        options: [
+            { value: 'cash', text: 'Cash' },
+            { value: 'creditCard', text: 'Credit/Debit Card' },
+        ],
+        inputProps: {
+            value: data.eventData.paymentMethod
         }
     },
     {

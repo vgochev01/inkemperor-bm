@@ -85,78 +85,33 @@ const CustomForm = ({ enctype, fields, data = {}, setData, customSubmit, customI
 
   const fullWidthFields = extendedFields.filter(f => f.fullWidth);
 
+  const renderField = (field, index) => (
+    <Col md={field.fullWidth ? 12 : 6} key={field.controlId}>
+      <FormField
+        controlId={field.controlId}
+        name={field.name}
+        label={field.label}
+        icon={field.icon}
+        type={field.type}
+        options={field.options}
+        placeholder={field.placeholder}
+        isValid={field.isValid !== undefined ? field.isValid : true}
+        feedback={field.feedback}
+        date={field.date || new Date()}
+        setDate={field.setDate}
+        required={field.required}
+        onBlur={handleBlur}
+        {...field.inputProps}
+      />
+    </Col>
+  );
+
   return (
     <Form onSubmit={handleSubmit} encType={enctype || 'application/x-www-form-urlencoded'}>
       {title && <h3 className="text-center my-4">{title}</h3>}
       {error && <Alert variant="danger" className='text-center'>{error}</Alert>}
       <Row>
-        <Col md={fields.length > colThreshold ? 6 : 12}>
-          {firstColFields.map((field, index) => (
-            <FormField
-              key={`col1-${index}`}
-              controlId={field.controlId}
-              name={field.name}
-              label={field.label}
-              icon={field.icon}
-              type={field.type}
-              options={field.options}
-              placeholder={field.placeholder}
-              isValid={field.isValid !== undefined ? field.isValid : true}
-              feedback={field.feedback}
-              date={field.date || new Date()}
-              setDate={field.setDate}
-              required={field.required}
-              onBlur={handleBlur}
-              {...field.inputProps}
-            />
-          ))}
-        </Col>
-        {secondColFields && (
-          <Col md={6}>
-            {secondColFields.map((field, index) => (
-              <FormField
-                key={`col2-${index}`}
-                controlId={field.controlId}
-                name={field.name}
-                label={field.label}
-                icon={field.icon}
-                type={field.type}
-                options={field.options}
-                placeholder={field.placeholder}
-                isValid={field.isValid !== undefined ? field.isValid : true}
-                feedback={field.feedback}
-                required={field.required}
-                onBlur={handleBlur}
-                {...field.inputProps}
-              />
-            ))}
-          </Col>
-        )}
-
-        {fullWidthFields && (
-          <Col md="12">
-            {fullWidthFields.map((field, index) => (
-                <Col md="12" key={`fullwidth-${index}`}>
-                    <FormField
-                      controlId={field.controlId}
-                      name={field.name}
-                      label={field.label}
-                      icon={field.icon}
-                      type={field.type}
-                      options={field.options}
-                      placeholder={field.placeholder}
-                      isValid={field.isValid !== undefined ? field.isValid : true}
-                      feedback={field.feedback}
-                      date={field.date || new Date()}
-                      setDate={field.setDate}
-                      required={field.required}
-                      onBlur={handleBlur}
-                      {...field.inputProps}
-                    />
-                </Col>
-              ))}
-          </Col>
-        )}
+        {fields.map((field, index) => renderField(field, index))}
       </Row>
       <Button variant="primary" type="submit" className={`w-100 mt-3 ${submitBtnClass || ''}`} id="submitFormBtn">
         Submit

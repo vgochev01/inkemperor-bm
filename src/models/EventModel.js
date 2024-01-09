@@ -10,10 +10,13 @@ class EventModel {
       this.clientInfo = apiEvent.client;
       this.additionalInfo = apiEvent.additionalInfo;
       this.deposit = apiEvent.deposit;
+      this.revenue = apiEvent.revenue;
+      this.paymentMethod = apiEvent.paymentMethod;
       this.sessionLength = apiEvent.sessionLength;
       this.recurring = apiEvent.recurring;
       this.photo = apiEvent.photo;
       this._id = apiEvent._id;
+      this.apiEvent = apiEvent;
   }
 }
 
