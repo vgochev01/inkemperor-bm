@@ -9,7 +9,6 @@ class EventModel {
       this.tattooArtist = apiEvent.tattooArtist;
       this.clientInfo = apiEvent.client;
       this.additionalInfo = apiEvent.additionalInfo;
-      this.tattooArtistInfo = apiEvent.tattooArtist;
       this.deposit = apiEvent.deposit;
       this.sessionLength = apiEvent.sessionLength;
       this.recurring = apiEvent.recurring;

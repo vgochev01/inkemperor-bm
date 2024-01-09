@@ -1,7 +1,7 @@
 import { request, requestMultipart } from "../util/ajax";
 
-export const getAllEvents = (token) => {
-    return request('/events', 'GET', null, token);
+export const getAllEvents = (calendarId, token) => {
+    return request(`/events?calendarId=${calendarId}`, 'GET', null, token);
 }
 
 export const createEvent = async (data, token) => {

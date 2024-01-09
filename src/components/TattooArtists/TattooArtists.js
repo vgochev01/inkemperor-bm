@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Container, Row, Col, Card, Button, Form, InputGroup } from 'react-bootstrap';
 import CustomForm from '../CustomForm/CustomForm';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -13,7 +13,6 @@ const TattooArtists = ({ artists, setArtists }) => {
     const { accessToken } = useAuth();
     const [error, setError] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
-    const [artistResults, setArtistResults] = useState([]);
 
     const [artistData, setArtistData] = useState({
         name: '',
@@ -104,6 +103,12 @@ const TattooArtists = ({ artists, setArtists }) => {
         }
     ];
 
+    // useEffect(() => {
+    //     artistService.getTattooArtists(accessToken)
+    //         .then(data => setArtists(data))
+    //         .catch(err => console.log(err.message));
+    // }, [accessToken, setArtists]);
+
     return (
         <Container id="tattooArtists" className={!isMobile && 'py-5'} fluid>
             <Row>
@@ -120,7 +125,7 @@ const TattooArtists = ({ artists, setArtists }) => {
                                             <Form>
                                                 <InputGroup>
                                                     <InputGroup.Text>
-                                                        <FontAwesomeIcon icon={faSearch} /> {/* Replace faSearch with the correct icon */}
+                                                        <FontAwesomeIcon icon={faSearch} />
                                                     </InputGroup.Text>
                                                     <Form.Control
                                                         type="text"

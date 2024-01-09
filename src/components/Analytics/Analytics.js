@@ -1,23 +1,32 @@
 import React from 'react';
-import RevenueSection from '../RevenueSection/RevenueSection';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import * as analyticService from '../../services/analyticService';
-
+import GenericAnalyticsSection from '../GenericAnalyticsSection/GenericAnalyticsSection';
+import { fetchData } from '../../services/analyticService';
 import './Analytics.scss';
 
-const Analytics = ({ artists, setIsPanelOpen }) => {
+const Analytics = () => {
     const { accessToken } = useAuth();
     const navigate = useNavigate();
-
     return (
-        <div className="analytics-container">
-            <RevenueSection />
-            {/* <SessionsSection />
-            <ArtistPerformanceSection />
-            <ClientsSection /> */}
+        <div className="analytics-container p-4">
+            <GenericAnalyticsSection
+                title="Revenue"
+                fetchFunction={(period, customPeriod, token) => fetchData('revenue', period, customPeriod, token)}
+                chartLabel="Total Revenue"
+                dataType="revenue"
+                yTitle="Revenue (BGN)"
+            />
+            <GenericAnalyticsSection
+                title="Sessions"
+                fetchFunction={(period, customPeriod, token) => fetchData('sessions', period, customPeriod, token)}
+                chartLabel="Total Sessions"
+                dataType="session"
+                yTitle="Sessions"
+            />
         </div>
     );
 };
 
 export default Analytics;
+

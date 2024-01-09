@@ -3,36 +3,49 @@ import { useAuth } from '../../context/AuthContext';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarAlt, faChartSimple, faCalendarPlus, faUserShield, faUserGroup } from '@fortawesome/free-solid-svg-icons';
+import { isMobile } from 'react-device-detect';
 import './Menu.scss';
 
-const Menu = ({ setIsPanelOpen }) => {
-    const { isAuthenticated, updateAuthState } = useAuth();
+const Menu = ({ calendars, setIsPanelOpen }) => {
+    const { isAuthenticated, user, logout } = useAuth();
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        updateAuthState();
-        navigate('/auth');
+        logout();
+        navigate('/login');
         setIsPanelOpen(false);
     };
 
     const menuItems = [
-        { path: '/', name: 'Calendar', icon: faCalendarAlt },
         { path: '/create-event', name: 'Create Event', icon: faCalendarPlus },
         { path: '/artists', name: 'Tattoo Artists', icon: faUserGroup },
         { path: '/analytics', name: 'Analytics', icon: faChartSimple },
     ];
 
     if (isAuthenticated) {
+        if(user.userRole === 'owner') {
+            menuItems.push({ path: '/create-user', name: 'Create User', icon: faUserShield });
+        }
         menuItems.push({ path: '/logout', name: 'Logout', icon: faUserShield, action: handleLogout });
     } else {
-        menuItems.push({ path: '/auth', name: 'Login', icon: faUserShield });
+        menuItems.push({ path: '/login', name: 'Login', icon: faUserShield });
     }
+
+    const generateCalendarMenuItems = () => {
+        return calendars.map(calendar => ({
+            path: `/calendar/${calendar.calendarType}`,
+            name: `${calendar.name}`,
+            icon: faCalendarAlt,
+        }));
+    };
+
+    let dynamicMenuItems = generateCalendarMenuItems();
 
     return (
         <>
             <h2 className="logo">InkEmperor</h2>
             <div className="menu">
-                {menuItems.map((item) => (
+                {dynamicMenuItems.concat(menuItems).map((item) => (
                     item.action ? (
                         <div key={item.path} className="menu-item" onClick={item.action}>
                             <FontAwesomeIcon icon={item.icon} className="menu-item-icon" />
@@ -43,7 +56,7 @@ const Menu = ({ setIsPanelOpen }) => {
                             to={item.path}
                             key={item.path}
                             className={({ isActive }) => isActive ? "menu-item active" : "menu-item"}
-                            onClick={() => setIsPanelOpen(false)}
+                            onClick={() => setIsPanelOpen(!!(!isMobile))}
                         >
                             <FontAwesomeIcon icon={item.icon} className="menu-item-icon" />
                             {item.name}

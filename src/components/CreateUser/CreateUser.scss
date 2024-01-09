@@ -1,0 +1,26 @@
+@import 'node_modules/bootstrap/scss/bootstrap';
+@import '../../scss/mixins';
+
+#createUserForm {
+  height: 100vh;
+  background-color: #E3F3F0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  max-width: 100%;
+
+  .create-user-card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    width: 480px;
+
+    @include respond-to(phones) {
+      width: 100%;
+    }
+  }
+
+  h3 {
+    color: #27a082;
+  }
+}

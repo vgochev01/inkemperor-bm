@@ -4,7 +4,7 @@ import { Form, Button, Row, Col, Alert } from 'react-bootstrap';
 import FormField from '../FormField/FormField';
 import './CustomForm.scss';
 
-const CustomForm = ({ enctype, fields, onSubmit, title, submitBtnClass, error }) => {
+const CustomForm = ({ enctype, fields, onSubmit, title, submitBtnClass, error, onBlur }) => {
   const filteredFields = fields.filter(f => !f.fullWidth);
 
 
@@ -36,6 +36,7 @@ const CustomForm = ({ enctype, fields, onSubmit, title, submitBtnClass, error })
               date={field.date || new Date()}
               setDate={field.setDate}
               required={field.required}
+              onBlur={onBlur}
               {...field.inputProps}
             />
           ))}
@@ -55,6 +56,7 @@ const CustomForm = ({ enctype, fields, onSubmit, title, submitBtnClass, error })
                 isValid={field.isValid !== undefined ? field.isValid : true}
                 feedback={field.feedback}
                 required={field.required}
+                onBlur={onBlur}
                 {...field.inputProps}
               />
             ))}

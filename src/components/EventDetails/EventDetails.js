@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import CustomForm from '../CustomForm/CustomForm';
-import { Button, Modal } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import * as eventService from '../../services/eventService';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -25,7 +25,7 @@ const EventDetails = ({ event, artists, setShowModal, fetchEvents }) => {
         to: '',
         allDay: event.allDay,
         recurring: event.extendedProps.recurring,
-        tattooArtist: event.extendedProps.tattooArtistInfo._id,
+        tattooArtist: event.extendedProps.tattooArtist._id,
         sessionLength: event.extendedProps.sessionLength,
         clientName: event.extendedProps.clientInfo.name,
         clientEmail: event.extendedProps.clientInfo.email,
@@ -35,6 +35,8 @@ const EventDetails = ({ event, artists, setShowModal, fetchEvents }) => {
         additionalInfo: event.extendedProps.additionalInfo,
         photo: null
     });
+
+    console.log(event.extendedProps);
 
     const handleInputChange = (e) => {
         const { name, value, type, checked, files } = e.target;

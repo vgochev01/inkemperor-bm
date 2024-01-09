@@ -89,9 +89,20 @@ const eventFormFields = (data) => [
         icon: faSackDollar,
         type: 'number',
         name: 'deposit',
-        required: true,
         inputProps: {
             value: data.eventData.deposit,
+            onChange: data.handleInputChange
+        }
+    },
+    {
+        controlId: 'revenue',
+        label: 'Revenue (BGN)',
+        icon: faSackDollar,
+        type: 'number',
+        name: 'revenue',
+        required: true,
+        inputProps: {
+            value: data.eventData.revenue,
             onChange: data.handleInputChange
         }
     },

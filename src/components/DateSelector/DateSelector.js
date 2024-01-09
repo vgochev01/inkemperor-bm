@@ -3,16 +3,44 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Button, ButtonGroup, Form } from 'react-bootstrap';
 
-const DateSelector = ({ selectedPeriod, setSelectedPeriod, setCustomPeriod, setDateForMonth, setDateForYear }) => {
+const DateSelector = ({ selectedPeriod, setSelectedPeriod, setCustomPeriod, handleDateForMonth, handleDateForYear }) => {
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
 
+    const updateCustomPeriod = (start, end) => {
+        // Set start to the beginning of the day
+        const adjustedStart = new Date(start.setHours(0, 0, 0, 0));
+
+        // Set end to the end of the day, or the same as start if it's the same day
+        const adjustedEnd = new Date(
+            end.getFullYear(), end.getMonth(), end.getDate(),
+            23, 59, 59, 999
+        );
+
+        setCustomPeriod({
+            start: adjustedStart.toISOString(),
+            end: adjustedEnd.toISOString(),
+            year: adjustedStart.getFullYear(),
+            month: adjustedStart.getMonth() + 1 // JavaScript months are 0-indexed
+        });
+    };
+
     const handlePeriodChange = (period) => {
         setSelectedPeriod(period);
-        if (period !== 'custom') {
-            setCustomPeriod({ start: '', end: '' });
-        } else {
-            setCustomPeriod({ start: startDate.toISOString(), end: endDate.toISOString() });
+
+        if (period === 'month') {
+            const startOfMonth = new Date(startDate.getFullYear(), startDate.getMonth(), 1);
+            const endOfMonth = new Date(startDate.getFullYear(), startDate.getMonth() + 1, 0);
+            updateCustomPeriod(startOfMonth, endOfMonth);
+        } else if (period === 'year') {
+            const startOfYear = new Date(startDate.getFullYear(), 0, 1);
+            const endOfYear = new Date(startDate.getFullYear(), 11, 31);
+            updateCustomPeriod(startOfYear, endOfYear);
+        } else if (period === 'custom') {
+            const today = new Date();
+            setStartDate(today);
+            setEndDate(today);
+            updateCustomPeriod(today, today);
         }
     };
 
@@ -20,9 +48,8 @@ const DateSelector = ({ selectedPeriod, setSelectedPeriod, setCustomPeriod, setD
         const [start, end] = dates;
         setStartDate(start);
         setEndDate(end);
-
         if (start && end) {
-            setCustomPeriod({ start: start.toISOString(), end: end.toISOString() });
+            updateCustomPeriod(start, end);
         }
     };
 
@@ -41,6 +68,7 @@ const DateSelector = ({ selectedPeriod, setSelectedPeriod, setCustomPeriod, setD
                             startDate={startDate}
                             endDate={endDate}
                             onChange={handleDateChange}
+                            dateFormat="yyyy/MM/dd"
                         />
                     </Form.Group>
                 </Form>
@@ -50,7 +78,10 @@ const DateSelector = ({ selectedPeriod, setSelectedPeriod, setCustomPeriod, setD
                     <Form.Group controlId="dateMonth">
                         <DatePicker
                             selected={startDate}
-                            onChange={(date) => setDateForMonth(date)}
+                            onChange={(date) => {
+                                setStartDate(date);
+                                handleDateForMonth(date);
+                            }}
                             dateFormat="MMMM yyyy"
                             showMonthYearPicker
                         />
@@ -62,7 +93,10 @@ const DateSelector = ({ selectedPeriod, setSelectedPeriod, setCustomPeriod, setD
                     <Form.Group controlId="dateYear">
                         <DatePicker
                             selected={startDate}
-                            onChange={(date) => setDateForYear(date)}
+                            onChange={(date) => {
+                                setStartDate(date);
+                                handleDateForYear(date);
+                            }}
                             dateFormat="yyyy"
                             showYearPicker
                         />

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { getAllEvents } from '../../services/eventService';
 import { useAuth } from '../../context/AuthContext';
 import { isMobile } from 'react-device-detect';
@@ -12,7 +12,7 @@ import { Modal } from 'react-bootstrap';
 import './Calendar.scss';
 import EventDetails from '../EventDetails/EventDetails';
 
-const Calendar = ({ artists }) => {
+const Calendar = ({ calendar, artists }) => {
     const calendarRef = useRef(null);
     const { accessToken } = useAuth();
     const [events, setEvents] = useState([]);
@@ -20,15 +20,15 @@ const Calendar = ({ artists }) => {
     const [selectedEvent, setSelectedEvent] = useState(null);
     const [currentView, setCurrentView] = useState('dayGridMonth');
 
-    const fetchEvents = async () => {
+    const fetchEvents = useCallback(async () => {
         try {
-            const apiEvents = await getAllEvents(accessToken);
+            const apiEvents = await getAllEvents(calendar._id, accessToken);
             const formattedEvents = apiEvents.map(e => new EventModel(e));
             setEvents(formattedEvents);
         } catch (err) {
             alert(err.message);
         }
-    }
+    }, [calendar._id, accessToken]);
 
     const headerToolbar = isMobile
         ? {
@@ -76,26 +76,13 @@ const Calendar = ({ artists }) => {
         return <div id="moreEventsLink">+{args.num} events</div>
     }
 
-    const renderEventContent = (eventInfo) => {
-        const artistColor = eventInfo.event.extendedProps.tattooArtist.color;
-
-        return (
-            <div style={{ color: artistColor }}>
-                {eventInfo.timeText && <div className='fc-event-time'>{eventInfo.timeText}</div>}
-                <div className='fc-event-title'>{eventInfo.event.title}</div>
-            </div>
-        );
-    }
-
     const calendarPlugins = isMobile
     ? [dayGridPlugin, timeGridPlugin, interactionPlugin, multiMonthPlugin]
     : [dayGridPlugin, timeGridPlugin, interactionPlugin];
 
     useEffect(() => {
-        (async function() {
-            await fetchEvents();
-        })();
-    }, [accessToken]);
+        fetchEvents();
+    }, [fetchEvents]);
 
     return (
         <div id="calendar">

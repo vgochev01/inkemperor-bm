@@ -5,7 +5,7 @@ import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import ReactDatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-const FormField = ({ controlId, name, label, icon, type, placeholder, options, required, isValid, feedback, date, setDate, ...rest }) => {
+const FormField = ({ controlId, name, label, icon, type, placeholder, options, required, isValid, feedback, date, setDate, onBlur, ...rest }) => {
   return (
     <Form.Group controlId={controlId} className={`form-group ${required && 'required'}`}>
       {type === 'checkbox' || type === 'radio' ? (
@@ -25,7 +25,7 @@ const FormField = ({ controlId, name, label, icon, type, placeholder, options, r
             {icon && type !== 'textarea' && <InputGroup.Text><FontAwesomeIcon icon={icon} /></InputGroup.Text>}
             {type === 'select' ? (
               <>
-                <Form.Control as="select" name={name} className="custom-select" {...rest} isInvalid={!isValid}>
+                <Form.Control as="select" onBlur={onBlur} name={name} className="custom-select" {...rest} isInvalid={!isValid}>
                   {options.map((option, index) => (
                     <option key={index} value={option.value}>{option.text}</option>
                   ))}
@@ -33,7 +33,7 @@ const FormField = ({ controlId, name, label, icon, type, placeholder, options, r
                 <FontAwesomeIcon icon={faChevronDown} /> {/* Use the appropriate FontAwesome icon */}
               </>
             ) : type === 'textarea' ? (
-              <Form.Control as="textarea" name={name} rows={3} placeholder={placeholder} isInvalid={!isValid} {...rest} />
+              <Form.Control as="textarea" onBlur={onBlur} name={name} rows={3} placeholder={placeholder} isInvalid={!isValid} {...rest} />
             ) : type === 'datetime-local' ? (
               <ReactDatePicker
                 selected={date}
@@ -44,6 +44,7 @@ const FormField = ({ controlId, name, label, icon, type, placeholder, options, r
                 timeIntervals={15}
                 timeCaption="time"
                 dateFormat="MMMM d, yyyy HH:mm"
+                onBlur={onBlur}
               />
             ) : (
               <Form.Control
@@ -52,6 +53,7 @@ const FormField = ({ controlId, name, label, icon, type, placeholder, options, r
                 placeholder={placeholder}
                 isInvalid={!isValid}
                 size={type === 'file' ? 'lg' : ''}
+                onBlur={onBlur}
                 {...rest} // Include all other props like value, onChange, etc.
               />
             )}
